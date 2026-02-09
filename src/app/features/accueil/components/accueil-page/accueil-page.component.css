@@ -1,0 +1,18 @@
+.accueil-page {
+  max-width: 600px;
+}
+
+.accueil-page h1 {
+  margin: 0 0 1rem;
+  font-size: 1.75rem;
+  color: var(--app-text);
+}
+
+.accueil-page a {
+  color: var(--app-primary);
+  text-decoration: none;
+}
+
+.accueil-page a:hover {
+  text-decoration: underline;
+}

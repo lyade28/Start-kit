@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+.angular/
+out-tsc/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment (optionnel : décommenter si vous ne versionnez pas les env)
+# src/environments/environment.ts
+# src/environments/environment.development.ts

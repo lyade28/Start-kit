@@ -1,0 +1,16 @@
+<div class="main-layout">
+  <aside class="main-layout-sidebar">
+    <div class="sidebar-brand">StartkitV1</div>
+    <nav class="sidebar-nav">
+      <a routerLink="/admin" routerLinkActive="active">Tableau de bord</a>
+      <a routerLink="/admin/utilisateurs" routerLinkActive="active">Utilisateurs</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="sidebar-user">{{ auth.currentUser()?.login }}</span>
+      <button type="button" class="btn-logout" (click)="onLogout()">Déconnexion</button>
+    </div>
+  </aside>
+  <main class="main-layout-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

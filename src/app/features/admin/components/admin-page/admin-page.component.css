@@ -1,0 +1,14 @@
+.admin-page h1 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+  color: var(--app-text);
+}
+
+.admin-page a {
+  color: var(--app-primary);
+  text-decoration: none;
+}
+
+.admin-page a:hover {
+  text-decoration: underline;
+}

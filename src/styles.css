@@ -1,0 +1,20 @@
+/* Thème Startkit — variables à surcharger par projet */
+:root {
+  --app-primary: #1976d2;
+  --app-primary-hover: #1565c0;
+  --app-surface: #ffffff;
+  --app-bg: #f5f5f5;
+  --app-text: #212121;
+  --app-text-muted: #757575;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--app-bg);
+  color: var(--app-text);
+}

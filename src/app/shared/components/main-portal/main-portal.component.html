@@ -1,0 +1,15 @@
+<header class="main-portal-header">
+  <a routerLink="/accueil" class="main-portal-logo">StartkitV1</a>
+  <nav class="main-portal-nav">
+    <a routerLink="/accueil" routerLinkActive="active">Accueil</a>
+    <span class="main-portal-user">{{ auth.currentUser()?.login ?? 'Invité' }}</span>
+    @if (auth.isLoggedIn()) {
+      <button type="button" class="btn-logout" (click)="onLogout()">Déconnexion</button>
+    } @else {
+      <a routerLink="/auth">Connexion</a>
+    }
+  </nav>
+</header>
+<main class="main-portal-body">
+  <router-outlet></router-outlet>
+</main>
