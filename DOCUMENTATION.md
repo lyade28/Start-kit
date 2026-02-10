@@ -182,3 +182,182 @@ Pour plus de détails sur la configuration des champs et des tableaux, voir `CON
 
 - **Guide d’architecture** (workspace parent) : `GUIDE-STARTKIT-ANGULAR-PORTAL-BACKOFFICE.md`
 - **Script create-app** : `scripts/README.md`
+
+---
+
+## 12. Démarrage rapide (Getting started)
+
+### 12.1 Cloner et installer
+
+```bash
+# Cloner le Startkit
+git clone <url-du-repo> startkitv1
+cd startkitv1
+
+# Installer les dépendances
+npm install
+```
+
+### 12.2 Lancer le Startkit
+
+```bash
+# Dev server Angular (http://localhost:4200)
+npm start
+```
+
+Par défaut, vous serez redirigé vers `/admin`. La route `/auth` reste accessible sans authentification tant que les guards ne sont pas activés.
+
+### 12.3 Générer une nouvelle application
+
+```bash
+# Mode interactif
+npm run create-app:interactive
+
+# Exemple : portail + back-office
+npm run create-app -- --name mon-app --portail --back-office
+```
+
+L’application générée est indépendante du Startkit et ne contient plus le dossier `scripts/`.
+
+---
+
+## 13. Activer la protection des routes (guards)
+
+Par défaut, **aucune route n’est protégée**. Pour sécuriser le back office (`/admin`) :
+
+1. Vérifier que `authGuard` est bien exporté depuis `core/guards/auth.guard.ts`.
+2. Dans `app.routes.ts`, ajouter le guard sur la route `admin`.
+
+Exemple (simplifié) :
+
+```ts
+import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+
+export const APP_ROUTES: Routes = [
+  {
+    path: 'admin',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/admin/routes').then((m) => m.ADMIN_ROUTES),
+  },
+  // ...
+];
+```
+
+Une fois le guard activé, toute navigation vers `/admin` sans être connecté doit rediriger vers `/auth` (comportement implémenté dans vos guards/services).
+
+---
+
+## 14. Exemple complet de feature avec tableau & formulaire
+
+Cette section illustre comment utiliser `DataTableComponent` et `DynamicFormComponent` pour une feature fictive `produits`.
+
+### 14.1 Structure de la feature
+
+```text
+src/app/features/produits/
+├── components/
+│   ├── produits-page/
+│   │   ├── produits-page.component.ts
+│   │   ├── produits-page.component.html
+│   │   └── produits-page.component.css
+├── config/
+│   ├── produits-table.config.ts
+│   └── produits-form.config.ts
+└── routes.ts
+```
+
+### 14.2 Routes de la feature
+
+```ts
+// src/app/features/produits/routes.ts
+import { Routes } from '@angular/router';
+import { ProduitsPageComponent } from './components/produits-page/produits-page.component';
+
+export const PRODUITS_ROUTES: Routes = [
+  {
+    path: '',
+    component: ProduitsPageComponent,
+  },
+];
+```
+
+Dans `app.routes.ts` :
+
+```ts
+import { Routes } from '@angular/router';
+
+export const APP_ROUTES: Routes = [
+  {
+    path: 'produits',
+    loadChildren: () =>
+      import('./features/produits/routes').then((m) => m.PRODUITS_ROUTES),
+  },
+  // ...
+];
+```
+
+Associez ensuite le layout souhaité (`main-layout` ou `main-portal`) suivant la convention du projet.
+
+### 14.3 Configuration du tableau
+
+```ts
+// src/app/features/produits/config/produits-table.config.ts
+import { TableConfig } from 'src/app/shared/models/table.model';
+
+export const PRODUITS_TABLE_CONFIG: TableConfig = {
+  title: 'Liste des produits',
+  columns: [
+    { key: 'id', label: 'ID', sortable: true },
+    { key: 'name', label: 'Nom', sortable: true },
+    { key: 'price', label: 'Prix', sortable: true, type: 'currency' },
+  ],
+  actions: [
+    { type: 'edit', label: 'Modifier' },
+    { type: 'delete', label: 'Supprimer', confirm: true },
+  ],
+};
+```
+
+La structure exacte des propriétés (`type`, `actions`, etc.) dépend de `TableConfig` dans `shared/models/table.model.ts`.
+
+### 14.4 Configuration du formulaire
+
+```ts
+// src/app/features/produits/config/produits-form.config.ts
+import { FieldConfig } from 'src/app/shared/models/form-field.model';
+
+export const PRODUITS_FORM_FIELDS: FieldConfig[] = [
+  {
+    name: 'name',
+    label: 'Nom du produit',
+    type: 'text',
+    validators: [{ name: 'required', message: 'Le nom est obligatoire' }],
+  },
+  {
+    name: 'price',
+    label: 'Prix',
+    type: 'number',
+    validators: [{ name: 'required', message: 'Le prix est obligatoire' }],
+  },
+];
+```
+
+`DynamicFormComponent` consomme ces champs pour générer automatiquement le formulaire (labels, types de champs, messages d’erreur).
+
+---
+
+## 15. FAQ (questions fréquentes)
+
+**Q : Pourquoi toutes les pages sont accessibles sans connexion ?**  
+R : Le Startkit est livré sans guards activés pour simplifier le démarrage. Il faut activer manuellement `authGuard` (voir section 13).
+
+**Q : Où configurer l’URL de mon API ?**  
+R : Dans `src/environments/environment*.ts` via la propriété `apiUrl` (voir section 7).
+
+**Q : Comment changer les couleurs globales de l’application ?**  
+R : En surchargeant les variables CSS définies dans `src/styles.css` (`--app-primary`, `--app-bg`, etc., voir section 8).
+
+**Q : Puis-je supprimer la feature `accueil` si je ne fais pas de portail ?**  
+R : Oui, à condition d’ajuster les routes et de supprimer les imports associés. Si vous générez une nouvelle app avec `--back-office-only`, le script fera déjà ce nettoyage.
