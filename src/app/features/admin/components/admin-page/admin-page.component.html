@@ -1,4 +1,18 @@
 <div class="admin-page">
   <h1>Tableau de bord (back office)</h1>
-  <p>Ceci est la page d'accueil du back office (layout main-layout).</p>
+  <p>Ceci est un exemple d'utilisation du tableau réutilisable (DataTableComponent).</p>
+
+  <app-data-table
+    [rows]="rows"
+    [config]="tableConfig"
+    (rowAction)="onRowAction($event)">
+  </app-data-table>
+
+  <h2 style="margin-top: 2rem;">Exemple de formulaire dynamique</h2>
+  <p>Les champs (labels, types, options) sont définis dans un fichier de configuration.</p>
+
+  <app-dynamic-form
+    [fields]="adminFormFields"
+    (submitted)="onFormSubmitted($event)">
+  </app-dynamic-form>
 </div>

@@ -142,6 +142,60 @@ function updateGuestGuardRedirect(destRoot, defaultRedirect) {
   }
 }
 
+function ensureFeatureConfigs(destRoot, { portail, backOffice }) {
+  const features = ['auth'];
+  if (backOffice) features.push('admin');
+  if (portail) features.push('accueil');
+
+  for (const feature of features) {
+    const featureRoot = path.join(destRoot, 'src/app/features', feature);
+    if (!fs.existsSync(featureRoot)) continue;
+
+    const configDir = path.join(featureRoot, 'config');
+    fs.mkdirSync(configDir, { recursive: true });
+
+    const upper = feature.toUpperCase().replace(/-/g, '_');
+
+    // Table config
+    const tableConfigPath = path.join(configDir, `${feature}-table.config.ts`);
+    if (!fs.existsSync(tableConfigPath) && feature !== 'auth') {
+      const tableConst = `${upper}_TABLE_CONFIG`;
+      const tableContent = `import { TableConfig } from '../../../shared/models/table.model';
+
+export const ${tableConst}: TableConfig = {
+  columns: [
+    { id: 'id', header: 'ID', field: 'id', type: 'number', width: '60px', align: 'right' },
+    { id: 'name', header: 'Nom', field: 'name', type: 'text' }
+  ],
+  rowActions: [
+    { id: 'view', type: 'view', label: 'Voir' }
+  ]
+};
+`;
+      fs.writeFileSync(tableConfigPath, tableContent, 'utf8');
+    }
+
+    // Form config
+    const formConfigPath = path.join(configDir, `${feature}-form.config.ts`);
+    if (!fs.existsSync(formConfigPath)) {
+      const formConst = `${upper}_FORM_FIELDS`;
+      const formContent = `import { FieldConfig } from '../../../shared/models/form-field.model';
+
+export const ${formConst}: FieldConfig[] = [
+  {
+    id: 'name',
+    label: 'Nom',
+    type: 'text',
+    placeholder: 'Saisir le nom...',
+    required: true
+  }
+];
+`;
+      fs.writeFileSync(formConfigPath, formContent, 'utf8');
+    }
+  }
+}
+
 function main() {
   const args = process.argv.slice(2);
   const isInteractive = args.length === 0 || args.includes('--interactive') || args.includes('-i');
@@ -250,6 +304,9 @@ async function run(projectName, portail, backOffice, outDir) {
   const defaultRedirect = portail ? 'accueil' : 'admin';
   fs.writeFileSync(routesPath, generateRoutesStatic({ portail, backOffice }), 'utf8');
   updateGuestGuardRedirect(destRoot, defaultRedirect);
+
+  // Générer des squelettes de fichiers de configuration (table + form) pour les features présentes
+  ensureFeatureConfigs(destRoot, { portail, backOffice });
 
   if (!portail) {
     const accueilDir = path.join(destRoot, 'src/app/features/accueil');

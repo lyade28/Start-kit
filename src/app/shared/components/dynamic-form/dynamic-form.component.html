@@ -1,0 +1,58 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="sk-form">
+  <div class="sk-form-grid">
+    <div class="sk-form-field" *ngFor="let field of fields">
+      <label [for]="field.id">
+        {{ field.label }}
+        <span *ngIf="field.required" class="sk-required">*</span>
+      </label>
+
+      <!-- Champ texte / number / date -->
+      <input
+        *ngIf="field.type === 'text' || field.type === 'number' || field.type === 'date'"
+        [id]="field.id"
+        [type]="field.type === 'text' ? 'text' : field.type"
+        [placeholder]="field.placeholder"
+        [formControlName]="field.id" />
+
+      <!-- Textarea -->
+      <textarea
+        *ngIf="field.type === 'textarea'"
+        [id]="field.id"
+        [placeholder]="field.placeholder"
+        [formControlName]="field.id">
+      </textarea>
+
+      <!-- Select -->
+      <select
+        *ngIf="field.type === 'select'"
+        [id]="field.id"
+        [formControlName]="field.id">
+        <option value="" disabled selected *ngIf="field.placeholder">{{ field.placeholder }}</option>
+        <option *ngFor="let opt of field.options" [ngValue]="opt.value">
+          {{ opt.label }}
+        </option>
+      </select>
+
+      <!-- Checkbox -->
+      <label *ngIf="field.type === 'checkbox'" class="sk-checkbox">
+        <input type="checkbox" [formControlName]="field.id" />
+        <span>{{ field.placeholder || field.label }}</span>
+      </label>
+
+      <!-- Hint -->
+      <div *ngIf="field.hint" class="sk-hint">
+        {{ field.hint }}
+      </div>
+
+      <!-- Erreur required -->
+      <div *ngIf="form.get(field.id)?.touched && form.get(field.id)?.hasError('required')" class="sk-error">
+        Ce champ est obligatoire.
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="sk-form-submit">
+    Enregistrer
+  </button>
+</form>
+

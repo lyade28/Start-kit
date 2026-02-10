@@ -1,0 +1,58 @@
+.sk-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.sk-table thead {
+  background: #f0f0f0;
+}
+
+.sk-table th,
+.sk-table td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e0e0e0;
+}
+
+.sk-table th {
+  text-align: left;
+  font-weight: 600;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.sk-actions-cell {
+  white-space: nowrap;
+}
+
+.sk-action-btn {
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.sk-action-btn:hover {
+  background: #f0f0f0;
+}
+
+.sk-empty {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+

@@ -159,7 +159,26 @@ Convention : nom de feature en **kebab-case**, export de routes en `XXX_ROUTES`.
 
 ---
 
-## 10. Références
+## 10. Composants dynamiques : tableau & formulaire
+
+- **Tableau générique** : `DataTableComponent` (`shared/components/data-table/`) lit un `TableConfig` défini dans `shared/models/table.model.ts`.  
+  - Pour chaque feature, vous pouvez créer un fichier `config/<feature>-table.config.ts` qui exporte un `TableConfig` (colonnes + actions).  
+  - Exemple : `ADMIN_TABLE_CONFIG` pour la feature `admin`.
+
+- **Formulaire dynamique** : `DynamicFormComponent` (`shared/components/dynamic-form/`) lit une liste de `FieldConfig` définis dans `shared/models/form-field.model.ts`.  
+  - Pour chaque feature, vous pouvez créer un fichier `config/<feature>-form.config.ts` qui exporte un tableau de `FieldConfig`.  
+  - Exemple : `ADMIN_FORM_FIELDS` pour la feature `admin`.
+
+- **Script `create-app`** : lors de la génération d’une nouvelle app, il crée automatiquement des squelettes de :
+  - `config/<feature>-table.config.ts` (sauf pour `auth`),
+  - `config/<feature>-form.config.ts` (pour toutes les features présentes),
+  pour que vous puissiez simplement les éditer (labels, types, colonnes) sans toucher aux composants.
+
+Pour plus de détails sur la configuration des champs et des tableaux, voir `CONFIG-FIELDS-TABLES.md`.
+
+---
+
+## 11. Références
 
 - **Guide d’architecture** (workspace parent) : `GUIDE-STARTKIT-ANGULAR-PORTAL-BACKOFFICE.md`
 - **Script create-app** : `scripts/README.md`

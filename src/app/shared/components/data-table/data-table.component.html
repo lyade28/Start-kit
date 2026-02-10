@@ -1,0 +1,34 @@
+<div class="sk-table-wrapper">
+  <table class="sk-table">
+    <thead>
+      <tr>
+        <th *ngFor="let col of config.columns" [style.width]="col.width" [class.align-right]="col.align === 'right'" [class.align-center]="col.align === 'center'">
+          {{ col.header }}
+        </th>
+        <th *ngIf="config.rowActions?.length">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of rows">
+        <td *ngFor="let col of config.columns" [class.align-right]="col.align === 'right'" [class.align-center]="col.align === 'center'">
+          {{ getCellValue(row, col.field) }}
+        </td>
+        <td *ngIf="config.rowActions?.length" class="sk-actions-cell">
+          <button
+            type="button"
+            class="sk-action-btn"
+            *ngFor="let action of config.rowActions"
+            (click)="onRowAction(action, row)">
+            {{ action.label }}
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!rows?.length">
+        <td [attr.colspan]="config.columns.length + (config.rowActions?.length ? 1 : 0)" class="sk-empty">
+          Aucune donnée à afficher.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

@@ -1,0 +1,74 @@
+.sk-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.sk-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.sk-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sk-form-field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sk-form-field input,
+.sk-form-field textarea,
+.sk-form-field select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.sk-form-field textarea {
+  min-height: 80px;
+}
+
+.sk-required {
+  color: #d32f2f;
+  margin-left: 0.15rem;
+}
+
+.sk-hint {
+  font-size: 0.8rem;
+  color: #757575;
+}
+
+.sk-error {
+  font-size: 0.8rem;
+  color: #d32f2f;
+}
+
+.sk-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.sk-form-submit {
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+  background: var(--app-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.sk-form-submit:hover {
+  background: var(--app-primary-hover);
+}
+
