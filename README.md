@@ -52,3 +52,7 @@ npm run create-app -- --name mon-app --portail-only
 ```
 
 Voir `scripts/README.md` pour toutes les options.
+
+---
+
+**Créé par** [lyade28](https://github.com/lyade28) · [Start-kit](https://github.com/lyade28/Start-kit) · *Startkit Angular 19+*
